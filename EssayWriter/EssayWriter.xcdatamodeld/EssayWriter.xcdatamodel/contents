@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24D70" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryImage" attributeType="String"/>
+        <attribute name="categoryName" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isPopular" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="essay" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefaultEssay" inverseName="category" inverseEntity="DefaultEssay"/>
+    </entity>
+    <entity name="DefaultEssay" representedClassName="DefaultEssay" syncable="YES" codeGenerationType="class">
+        <attribute name="essay" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" attributeType="String"/>
+        <attribute name="isPopular" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="essay" inverseEntity="Category"/>
+    </entity>
+    <entity name="FavoriteEssay" representedClassName="FavoriteEssay" syncable="YES" codeGenerationType="class">
+        <attribute name="category" attributeType="String"/>
+        <attribute name="citation" attributeType="String"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="essay" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="url" attributeType="String"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="GeenrateEssay" representedClassName="GeenrateEssay" syncable="YES" codeGenerationType="class">
+        <attribute name="academicLevel" attributeType="String"/>
+        <attribute name="addReferences" optional="YES" attributeType="String"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="citation" optional="YES" attributeType="String"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="essay" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="isFromBasicMode" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="length" optional="YES" attributeType="String"/>
+        <attribute name="noOfParagraph" optional="YES" attributeType="String"/>
+        <attribute name="prompt" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="tone" optional="YES" attributeType="String"/>
+        <attribute name="url" attributeType="String"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="writingStyle" optional="YES" attributeType="String"/>
+    </entity>
+</model>
