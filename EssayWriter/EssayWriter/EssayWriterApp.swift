@@ -12,7 +12,7 @@ struct EssayWriterApp: App {
     @StateObject var essayHomeViewModel = EssayHomeViewModel(container: PersistenceController.shard.container)
     @StateObject var generateEssayManager = CoreDataManager<GeenrateEssay>(container: PersistenceController.shard.container)
     @StateObject var favouriteEssayManager = CoreDataManager<FavoriteEssay>(container: PersistenceController.shard.container)
-    
+    @StateObject var essayCreationViewModel = EssayCreationViewModel()
     let persistenceController = PersistenceController.shard
 
     var body: some Scene {
@@ -22,10 +22,9 @@ struct EssayWriterApp: App {
                 .environmentObject(generateEssayManager)
                 .environmentObject(favouriteEssayManager)
                 .environmentObject(essayHomeViewModel)
-                .onAppear {
-                    Task {
-                        await essayHomeViewModel.fetchDefaultEssay()
-                    }
+                .environmentObject(essayCreationViewModel)
+                .task {
+                    await essayHomeViewModel.fetchDefaultEssay()
                 }
         }
     }

@@ -14,10 +14,8 @@ struct ContentView: View {
     
 //    @ObservedObject var essayHomeViewModel: EssayHomeViewModel
     var body: some View {
-        NavigationStack {
-            ZStack {
-                EssayHomeView()
-            }
+        ZStack {
+            MainView()
         }
     }
 }
