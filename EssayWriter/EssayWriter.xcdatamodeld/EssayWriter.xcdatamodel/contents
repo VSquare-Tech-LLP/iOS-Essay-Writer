@@ -17,7 +17,7 @@
     </entity>
     <entity name="FavoriteEssay" representedClassName="FavoriteEssay" syncable="YES" codeGenerationType="class">
         <attribute name="category" attributeType="String"/>
-        <attribute name="citation" attributeType="String"/>
+        <attribute name="citation" optional="YES" attributeType="String"/>
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="essay" attributeType="String"/>
         <attribute name="id" attributeType="String"/>

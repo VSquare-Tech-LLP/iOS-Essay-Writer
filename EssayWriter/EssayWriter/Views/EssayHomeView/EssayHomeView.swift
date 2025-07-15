@@ -121,7 +121,13 @@ struct EssayHomeView: View {
                         generatedEssayCoreDataManager: generateEssayManager,
                         isFavourite: $isFavourite,
                         favouriteAction: {
-                            
+                            let imageID = URL(string: selectedEssay.url)?.lastPathComponent ?? ""
+                            toggleFavorite(
+                                id: imageID,
+                                url: selectedEssay.url,
+                                title: selectedEssay.title,
+                                category: selectedEssay.category,
+                                essay: selectedEssay.essay)
                         }, deleteAction: {},
                         reGenerateButtonAction: { _ in},
                         closeButtonAction: {
@@ -161,6 +167,36 @@ struct EssayHomeView: View {
             addReferences: "",
             isFromBasicMode: false
         )
+    }
+    
+    func toggleFavorite(id: String, url: String, title: String, category: String, essay: String) {
+        if isFavourite {
+            self.isFavourite = false
+            favouriteEssayManager.deleteFavorite(by: id)
+        } else {
+            self.isFavourite = true
+            
+            guard let imageUrl = URL(string: url) else {
+                print("Invalid image URL")
+                return
+            }
+
+            let imageName = "\(id)"
+            let folderName = "FavouriteEssay"
+
+            Task {
+                if let localURL = await EssayLocalStorageManager.shared.saveImageFromURL(imageUrl, withName: imageName, in: folderName) {
+                    DispatchQueue.main.async {
+                        favouriteEssayManager.saveFavorite(id: id, url: localURL.absoluteString, title: title, category: category, essay: essay, citation: nil)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        print("Failed to save image locally, saving with original URL")
+                        favouriteEssayManager.saveFavorite(id: id, url: url, title: title, category: category, essay: essay, citation: nil)
+                    }
+                }
+            }
+        }
     }
 }
 
