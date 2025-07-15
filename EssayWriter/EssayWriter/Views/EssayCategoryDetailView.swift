@@ -48,13 +48,36 @@ struct EssayCategoryDetailView: View {
                         .onTapGesture {
                             self.selectedId = URL(string: data.image ?? "")?.lastPathComponent ?? ""
                             self.isFavourite = favouriteManager.items.contains { $0.id == selectedId ?? "" }
-                            self.selectedEssay = selectedEssay
+                            self.selectedEssay = selectedGeneratedEssay(essayDetail: data)
+                            self.shoEssayDetail = true
                         }
                         
                     }
                 }
             }
             .scrollIndicators(.hidden)
+            .navigationDestination(isPresented: $shoEssayDetail) {
+                if let selectedEssay {
+                    EssayDetailScreen(
+                        essayDetail: selectedEssay,
+                        generatedEssayCoreDataManager: generateManager,
+                        isFavourite: $isFavourite,
+                        favouriteAction: {
+                            let imageID = URL(string: selectedEssay.url)?.lastPathComponent ?? ""
+                            toggleFavorite(id: imageID,
+                                           url: selectedEssay.url,
+                                           title: selectedEssay.title,
+                                           category: selectedEssay.category,
+                                           essay: selectedEssay.essay)
+                        }, deleteAction: {}, reGenerateButtonAction: { essayID in},
+                        closeButtonAction: {
+                            
+                        }, backButtonAction: {
+                            self.selectedEssay = nil
+                            self.shoEssayDetail = false
+                        })
+                }
+            }
         }
         .padding(.horizontal, ScaleUtility.scaledSpacing(25))
         .padding(.top, ScaleUtility.scaledSpacing(14))

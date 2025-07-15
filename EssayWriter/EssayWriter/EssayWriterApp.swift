@@ -17,10 +17,11 @@ struct EssayWriterApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(essayHomeViewModel: essayHomeViewModel)
+            ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(generateEssayManager)
                 .environmentObject(favouriteEssayManager)
+                .environmentObject(essayHomeViewModel)
                 .onAppear {
                     Task {
                         await essayHomeViewModel.fetchDefaultEssay()

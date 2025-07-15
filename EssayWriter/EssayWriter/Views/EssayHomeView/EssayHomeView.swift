@@ -9,14 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct EssayHomeView: View {
-    @State var showDetailView: Bool = false
+    @State var showCategoryDetailView: Bool = false
     @State var showSettingView: Bool = false
     @State var paywallView: Bool = false
     
-    @ObservedObject var favouriteEssayManager: CoreDataManager<FavoriteEssay>
-    @ObservedObject var generateEssayManager: CoreDataManager<GeenrateEssay>
+    @EnvironmentObject var favouriteEssayManager: CoreDataManager<FavoriteEssay>
+    @EnvironmentObject var generateEssayManager: CoreDataManager<GeenrateEssay>
     
-    @ObservedObject var essayHomeViewModel: EssayHomeViewModel
+    @EnvironmentObject var essayHomeViewModel: EssayHomeViewModel
     
     @State var selectedEssay: GenerateEssayModel? = nil
     @State var showEssayDetailView: Bool = false
@@ -67,7 +67,7 @@ struct EssayHomeView: View {
                                 category: essayHomeViewModel.popularCategories,
                                 onTapAction: { category in
                                     self.selectedCategory = category
-                                    self.showDetailView = true
+                                    self.showCategoryDetailView = true
                                 })
                             
                             if let scienceCategory = essayHomeViewModel.scienceCategory {
@@ -75,12 +75,12 @@ struct EssayHomeView: View {
                                     category: scienceCategory,
                                     viewAllAction: {
                                         self.selectedCategory = scienceCategory
-                                        self.showDetailView = true
+                                        self.showCategoryDetailView = true
                                     }, onTapEssayAction: { essayDetail in
                                         self.selectedEssayId = URL(string: essayDetail.image ?? "")?.lastPathComponent ?? ""
                                         self.isFavourite = favouriteEssayManager.items.contains { $0.id == selectedEssayId ?? "" }
                                         self.selectedEssay = selectedEssayDetails(essayDetail: essayDetail)
-                                        self.showDetailView = true
+                                        self.showEssayDetailView = true
                                     })
                             }
                             
@@ -88,7 +88,7 @@ struct EssayHomeView: View {
                             category: essayHomeViewModel.otherCategories,
                             viewAllAction: { selectedCategory in
                                 self.selectedCategory = selectedCategory
-                                self.showDetailView = true
+                                self.showCategoryDetailView = true
                             }, onTapEssay: { defaultEssay in
                                 self.selectedEssayId = URL(string: defaultEssay.image ?? "")?.lastPathComponent ?? ""
                                 self.isFavourite = favouriteEssayManager.items.contains { $0.id == selectedEssayId ?? "" }
@@ -102,7 +102,7 @@ struct EssayHomeView: View {
                     .scrollIndicators(.hidden)
                 }
             }
-            .navigationDestination(isPresented: $showDetailView,
+            .navigationDestination(isPresented: $showCategoryDetailView,
                                    destination: {
                 if let selectedCategory = selectedCategory {
                     EssayCategoryDetailView(
@@ -110,10 +110,31 @@ struct EssayHomeView: View {
                         favouriteManager: favouriteEssayManager,
                         essayCategory: selectedCategory,
                         backButtonAction: {
-                            self.showDetailView = false
+                            self.showCategoryDetailView = false
                         })
                 }
             })
+            .navigationDestination(isPresented: $showEssayDetailView) {
+                if let selectedEssay {
+                    EssayDetailScreen(
+                        essayDetail: selectedEssay,
+                        generatedEssayCoreDataManager: generateEssayManager,
+                        isFavourite: $isFavourite,
+                        favouriteAction: {
+                            
+                        }, deleteAction: {},
+                        reGenerateButtonAction: { _ in},
+                        closeButtonAction: {
+                            
+                        }, backButtonAction: {
+                            self.selectedEssay = nil
+                            self.selectedEssayId = nil
+                            self.selectedCategory = nil
+                            self.showEssayDetailView  = false
+                        }
+                    )
+                }
+            }
         }
     }
     

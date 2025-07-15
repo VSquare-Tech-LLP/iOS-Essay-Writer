@@ -9,17 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var favouriteEssayManager: CoreDataManager<FavoriteEssay>
-    @EnvironmentObject var generateEssayManager: CoreDataManager<GeenrateEssay>
+//    @EnvironmentObject var favouriteEssayManager: CoreDataManager<FavoriteEssay>
+//    @EnvironmentObject var generateEssayManager: CoreDataManager<GeenrateEssay>
     
-    @ObservedObject var essayHomeViewModel: EssayHomeViewModel
+//    @ObservedObject var essayHomeViewModel: EssayHomeViewModel
     var body: some View {
         NavigationStack {
             ZStack {
-                EssayHomeView(
-                    favouriteEssayManager: favouriteEssayManager,
-                    generateEssayManager: generateEssayManager,
-                    essayHomeViewModel: essayHomeViewModel)
+                EssayHomeView()
             }
         }
     }
