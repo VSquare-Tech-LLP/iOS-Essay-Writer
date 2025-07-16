@@ -17,8 +17,8 @@ struct CreationEssayBaiscModeView: View {
     
     @State var essayTitle: String = ""
     @State var prompt: String = ""
-    @State var essayLength: String = ""
-    @State var essayAcademicLevel: String = ""
+    @State var essayLength: String = "Short"
+    @State var essayAcademicLevel: String = "High School"
     
     @State var showToast: Bool = false
     @State var toastMessage: String = ""

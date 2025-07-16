@@ -109,6 +109,22 @@ enum AppThemeMode: String, CaseIterable {
     }
 }
 
+// common
+
+struct AdConstants {
+    static let baseApiURL = "https://api.quillpen.app/api/"
+    static let basicModeURL = "write-essay-basic"
+    static let advanceModeURL = "write-essay-guided"
+    
+   static var basicModeAPIURL: String {
+        AdConstants.baseApiURL + AdConstants.basicModeURL
+    }
+    
+    static var advanceModeAPIURL: String {
+        AdConstants.baseApiURL + AdConstants.advanceModeURL
+    }
+}
+
 /// Back button component.
 struct AppBackButtonView: View {
     var opacity: Double = 1

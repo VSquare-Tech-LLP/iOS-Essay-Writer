@@ -139,18 +139,13 @@ struct LibraryGenerateEssayView: View {
                 )
             }
         }
-//        .fullScreenCover(isPresented: $isShowFullScreen) {
-//            if let selectedGeneratedEssay {
-//                LibraryRegenerateEssayView(
-//                    isShowFullScreen: $isShowFullScreen,
-//                    backButtonAction: {
-//                        isShowFullScreen = false
-//                    },
-//                    essayModel: selectedGeneratedEssay,
-//                    generatedEssayCoreDataManager: generateManager
-//                )
-//            }
-//        }
+        .fullScreenCover(isPresented: $isShowFullScreen) {
+            if let selectedGeneratedEssay {
+                RegenerateEssayView(isShowFullScreen: $isShowFullScreen, backButtonAction: {
+                    isShowFullScreen = false
+                }, essayModel: selectedGeneratedEssay)
+            }
+        }
     }
 
     // MARK: - Helper Methods
